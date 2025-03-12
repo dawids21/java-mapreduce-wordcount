@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import xyz.stasiak.javamapreduce.rmi.RemoteNodeImpl;
 import xyz.stasiak.javamapreduce.rmi.RemoteServerImpl;
+import xyz.stasiak.javamapreduce.rmi.RmiUtil;
 import xyz.stasiak.javamapreduce.util.LoggingUtil;
 import xyz.stasiak.javamapreduce.util.SystemProperties;
 
@@ -57,6 +58,7 @@ public class Application {
     private void registerShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
+                RmiUtil.shutdown();
                 if (remoteNode != null) {
                     remoteNode.shutdownExecutor();
                     rmiRegistry.unbind("node");
