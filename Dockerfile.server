@@ -2,12 +2,12 @@ FROM eclipse-temurin:23-jre
 
 WORKDIR /app
 
-COPY target/javamapreduce.jar /app/javamapreduce.jar
-
-ENV NODE_DIRECTORY=/app/tmp/node
-ENV PUBLIC_DIRECTORY=/app/tmp/public
+ENV NODE_DIRECTORY=/app/node/java-mapreduce
+ENV PUBLIC_DIRECTORY=/app/public/java-mapreduce
 ENV RMI_PORT=1099
 ENV NODE_ADDRESS=rmi://localhost:${RMI_PORT}/node
 ENV KNOWN_NODES=rmi://localhost:${RMI_PORT}/node
 
 ENTRYPOINT ["java", "-jar", "javamapreduce.jar"]
+
+COPY target/javamapreduce.jar /app/javamapreduce.jar

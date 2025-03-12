@@ -2,10 +2,8 @@ FROM eclipse-temurin:23-jre
 
 WORKDIR /app
 
-COPY target/javamapreduce-cli.jar /app/javamapreduce-cli.jar
-
-RUN mkdir -p /app/data
-
 ENV RMI_PORT=1099
 
 ENTRYPOINT ["java", "-jar", "javamapreduce-cli.jar"]
+
+COPY target/javamapreduce-cli.jar /app/javamapreduce-cli.jar
