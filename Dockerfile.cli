@@ -2,6 +2,7 @@ FROM eclipse-temurin:24-jre
 
 WORKDIR /app
 
+ENV PUBLIC_DIRECTORY=/app/public
 ENV RMI_PORT=1099
 
 ENTRYPOINT ["java", "-jar", "javamapreduce-cli.jar"]

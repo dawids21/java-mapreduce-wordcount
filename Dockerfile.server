@@ -2,8 +2,8 @@ FROM eclipse-temurin:24-jre
 
 WORKDIR /app
 
-ENV NODE_DIRECTORY=/app/node/java-mapreduce
-ENV PUBLIC_DIRECTORY=/app/public/java-mapreduce
+ENV NODE_DIRECTORY=/app/node
+ENV PUBLIC_DIRECTORY=/app/public
 ENV RMI_PORT=1099
 ENV NODE_ADDRESS=rmi://localhost:${RMI_PORT}/node
 ENV KNOWN_NODES=rmi://localhost:${RMI_PORT}/node
