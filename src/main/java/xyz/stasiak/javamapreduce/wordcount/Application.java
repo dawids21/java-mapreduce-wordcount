@@ -5,8 +5,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Logger;
 
-import xyz.stasiak.javamapreduce.rmi.RemoteNodeImpl;
-import xyz.stasiak.javamapreduce.rmi.RemoteServerImpl;
+import xyz.stasiak.javamapreduce.processing.Controller;
+import xyz.stasiak.javamapreduce.processing.Server;
 import xyz.stasiak.javamapreduce.rmi.RmiUtil;
 import xyz.stasiak.javamapreduce.util.LoggingUtil;
 import xyz.stasiak.javamapreduce.util.SystemProperties;
@@ -14,13 +14,13 @@ import xyz.stasiak.javamapreduce.util.SystemProperties;
 public class Application {
     private static final Logger LOGGER = Logger.getLogger(Application.class.getName());
     private Registry rmiRegistry;
-    private RemoteNodeImpl remoteNode;
-    private RemoteServerImpl remoteServer;
+    private Controller controller;
+    private Server server;
 
     Application() {
         LoggingUtil.logInfo(LOGGER, Application.class, "Starting Java MapReduce application");
         initializeRmiRegistry();
-        initializeRemoteNode();
+        initializeRemoteObjects();
         registerShutdownHook();
     }
 
@@ -43,15 +43,15 @@ public class Application {
         }
     }
 
-    private void initializeRemoteNode() {
+    private void initializeRemoteObjects() {
         try {
-            remoteNode = new RemoteNodeImpl();
-            rmiRegistry.rebind("node", remoteNode);
-            remoteServer = new RemoteServerImpl(remoteNode);
-            rmiRegistry.rebind("server", remoteServer);
+            controller = new Controller();
+            rmiRegistry.rebind("node", controller);
+            server = new Server(controller);
+            rmiRegistry.rebind("server", server);
         } catch (RemoteException e) {
-            LoggingUtil.logSevere(LOGGER, Application.class, "Failed to initialize RemoteNode", e);
-            throw new IllegalStateException("Could not initialize RemoteNode", e);
+            LoggingUtil.logSevere(LOGGER, Application.class, "Failed to initialize remote objects", e);
+            throw new IllegalStateException("Could not initialize remote objects", e);
         }
     }
 
@@ -59,17 +59,17 @@ public class Application {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 RmiUtil.shutdown();
-                if (remoteNode != null) {
-                    remoteNode.shutdownExecutor();
+                if (controller != null) {
+                    controller.shutdownExecutor();
                     rmiRegistry.unbind("node");
-                    LoggingUtil.logInfo(LOGGER, Application.class, "RemoteNode unbound from registry");
+                    LoggingUtil.logInfo(LOGGER, Application.class, "Controller unbound from registry");
                 }
-                if (remoteServer != null) {
+                if (server != null) {
                     rmiRegistry.unbind("server");
-                    LoggingUtil.logInfo(LOGGER, Application.class, "RemoteServer unbound from registry");
+                    LoggingUtil.logInfo(LOGGER, Application.class, "Server unbound from registry");
                 }
             } catch (Exception e) {
-                LoggingUtil.logWarning(LOGGER, Application.class, "Error while cleaning up RemoteNode", e);
+                LoggingUtil.logWarning(LOGGER, Application.class, "Error while cleaning up remote objects", e);
             }
         }));
     }

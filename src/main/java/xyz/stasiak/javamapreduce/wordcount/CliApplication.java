@@ -7,11 +7,11 @@ import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import xyz.stasiak.javamapreduce.cli.CommandLineParser;
-import xyz.stasiak.javamapreduce.cli.CommandWithArguments;
 import xyz.stasiak.javamapreduce.rmi.RemoteServer;
 import xyz.stasiak.javamapreduce.util.LoggingUtil;
 import xyz.stasiak.javamapreduce.util.SystemProperties;
+import xyz.stasiak.javamapreduce.wordcount.cli.CommandLineParser;
+import xyz.stasiak.javamapreduce.wordcount.cli.CommandWithArguments;
 
 public class CliApplication {
     private static final Logger LOGGER = Logger.getLogger(CliApplication.class.getName());
