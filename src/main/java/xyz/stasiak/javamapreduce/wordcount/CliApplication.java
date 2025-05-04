@@ -37,10 +37,28 @@ public class CliApplication {
 
     public static void main(String[] args) {
         var application = new CliApplication();
-        application.run();
+
+        if (args.length > 0) {
+            var commandLine = String.join(" ", args);
+            application.singleCommand(commandLine);
+        } else {
+            application.interactive();
+        }
     }
 
-    void run() {
+    private void singleCommand(String commandLine) {
+        LoggingUtil.logInfo(LOGGER, CliApplication.class, "Processing single command: " + commandLine);
+        var commandWithArguments = parser.parse(commandLine);
+
+        if (commandWithArguments == null) {
+            System.out.println("Unknown command: " + commandLine);
+            return;
+        }
+
+        processCommand(commandWithArguments);
+    }
+
+    private void interactive() {
         LoggingUtil.logInfo(LOGGER, CliApplication.class, "Starting Java MapReduce CLI application");
         try (var scanner = new Scanner(System.in)) {
             processCommands(scanner);
