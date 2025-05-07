@@ -10,6 +10,7 @@ ENV KNOWN_NODES=rmi://localhost:${RMI_PORT}/node
 ENV PROCESSING_POWER_MULTIPLIER=1
 ENV JVM_XMS=""
 ENV JVM_XMX=""
+ENV INJECT_EXCEPTION=false
 
 ENTRYPOINT ["sh", "-c", "java ${JVM_XMS:+-Xms$JVM_XMS} ${JVM_XMX:+-Xmx$JVM_XMX} -jar javamapreduce.jar 2>&1"]
 
