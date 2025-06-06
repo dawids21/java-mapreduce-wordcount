@@ -6,7 +6,7 @@ W celu uruchomienia aplikacji serwerowej należy utworzyć w obecnym katalogu fo
 ```sh
 docker run -d \
     --network host \
-    -v $PWD/tmp:/app/node \
+    -v $PWD/tmp/$NAME:/app/node \
     -v $PWD/tmp/public:/app/public \
     -e RMI_PORT=$RMI_PORT \
     -e NODE_ADDRESS=rmi://$IP:$RMI_PORT/node \
