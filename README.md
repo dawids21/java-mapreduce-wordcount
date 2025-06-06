@@ -1,4 +1,4 @@
-# Java MapReduce
+# Java MapReduce Word Count
 Repozytorium zawiera rozwiązanie problemu liczenia słów w tekście za pomocą MapReduce w języku Java.
 ## Aplikacja serwerowa
 Aplikację najłatwiej uruchomić za pomocą narzędzia Docker.
