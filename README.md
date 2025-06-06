@@ -38,6 +38,6 @@ gdzie:
 
 Następnie można wydawać polecenia:
   - `start "examples" "output" xyz.stasiak.javamapreduce.wordcount.WordCountMapper xyz.stasiak.javamapreduce.wordcount.WordCountReducer`,
-  - `check ID`.
+  - `status ID`.
 
 Ścieżki do plików należy podawać relatywnie do katalogu `$PWD/tmp/public`.
